@@ -1,0 +1,21 @@
+---
+
+- name: set initial foreman organization
+  set_fact:
+    satellite_initial_organization: "{{ organization.name }}"
+  when:
+    - organization.initial_organization is defined
+    - organization.initial_organization
+  loop_control:
+    loop_var: organization
+  loop: "{{ satellite.foreman.organizations }}"
+
+- name: set initial foreman location
+  set_fact:
+    satellite_initial_location: "{{ location.name }}"
+  when:
+    - location.initial_location is defined
+    - location.initial_location
+  loop_control:
+    loop_var: location
+  loop: "{{ satellite.foreman.locations }}"

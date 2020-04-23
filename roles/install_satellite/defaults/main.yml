@@ -1,0 +1,25 @@
+---
+
+common_repos:
+  - rhel-7-server-rpms
+  - rhel-server-rhscl-7-rpms
+  - rhel-7-server-ansible-2.8-rpms
+
+satellite_repos:
+  - "rhel-7-server-satellite-{{ satellite.version }}-rpms"
+
+capsule_repos:
+  - "rhel-7-server-satellite-capsule-{{ satellite.version }}-rpms"
+
+maintenance_repos:
+  - rhel-7-server-satellite-maintenance-6-rpms
+
+satellite_beta_repos:
+  - rhel-server-7-satellite-6-beta-rpms
+
+maintenance_beta_repos:
+  - rhel-7-server-satellite-maintenance-6-beta-rpms
+
+install_repos: []
+
+satellite_conflicting_rpms: gofer,python-pulp-agent-lib,python-gofer-proton,pulp-rpm-handlers

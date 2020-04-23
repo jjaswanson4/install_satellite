@@ -1,0 +1,6 @@
+---
+
+- name: remove packages that cause dependency issues with installing satellite
+  yum:
+    name: "{{ satellite_conflicting_rpms }}"
+    state: absent
