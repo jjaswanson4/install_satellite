@@ -1,0 +1,14 @@
+---
+
+- name: set up satellite
+  hosts:
+    - satellite
+  collections:
+    - jjaswanson4.install_satellite
+  pre_tasks:
+    - name: load in satellite vars
+      include_vars:
+        file: "{{ vars_file }}"
+  roles:
+    - jjaswanson4.install_satellite.install_satellite
+    - jjaswanson4.install_satellite.tune_satellite
