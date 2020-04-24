@@ -12,8 +12,8 @@ license:
 tags:
   - satellite6
   - install_satellite
-dependencies:
-  "jjaswanson4.setup_for_satellite": "*"
+#dependencies:
+#  "jjaswanson4.setup_for_satellite": "*"
 repository: https://github.com/jjaswanson4/install_satellite
 documentation: https://github.com/jjaswanson4/install_satellite/blob/master/README.md
 homepage: https://github.com/jjaswanson4/install_satellite
