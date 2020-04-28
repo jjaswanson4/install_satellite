@@ -27,7 +27,7 @@ ansible-galaxy collection install jjaswanson4.install_satellite
 ```
 
 ## Examples
-- There are example playbooks located in playbooks directory
+- There are example playbooks located in the playbooks directory
 - Vars examples can be found in playbooks/vars
 
 ## Vars
