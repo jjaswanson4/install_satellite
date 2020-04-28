@@ -1,0 +1,33 @@
+---
+satellite:
+  version: 6.7
+  admin_username: admin
+  admin_password: changeme
+  tuning_config_files:
+    - name: dynflowd.j2
+      path: /etc/sysconfig/dynflowd
+    - name: httpd_limits.conf.j2
+      path: /etc/systemd/system/httpd.service.d/limits.conf
+    - name: 01-satellite-tune.conf.j2
+      path: /etc/sysctl.d/01-satellite-tune.conf
+  foreman:
+    organizations:
+      - name: general
+        initial_organization: true
+      - name: josh
+    locations:
+      - name: josh1
+        organizations:
+          - name: josh
+      - name: josh2
+        organizations:
+          - name: josh
+          - name: general
+      - name: msp-lab
+        initial_location: true
+        organizations:
+          - name: general
+      - name: msp-lab2
+        organizations:
+          - name: josh
+          - name: general
