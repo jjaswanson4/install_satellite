@@ -56,7 +56,7 @@ satellite:
   foreman:
     organizations:
       - name: general
-        initial_organization: true
+        initial_organization: true # Required to be defined and set to true
       - name: josh
     locations:
       - name: josh1
@@ -67,7 +67,7 @@ satellite:
           - name: josh
           - name: general
       - name: msp-lab
-        initial_location: true
+        initial_location: true # Required to be defined and set to true
         organizations:
           - name: general
       - name: msp-lab2
