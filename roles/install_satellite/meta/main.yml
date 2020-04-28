@@ -1,0 +1,10 @@
+galaxy_info:
+  author: Josh Swanson
+  description: install satellite 6 on a RHEL7 host
+  license: GPL-2.0
+  min_ansible_version: 2.9
+  galaxy_tags:
+    - satellite6
+    - install_satellite
+
+dependencies: []
