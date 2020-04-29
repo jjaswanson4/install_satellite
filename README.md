@@ -16,7 +16,7 @@ This collection does allow full control over the satellite installer via use of 
 
 ## Usage
 The best way to consume this collection is to set up a requirements.yml:
-```
+```yaml
 ---
 collections:
   - jjaswanson4.install_satellite
@@ -41,7 +41,7 @@ All vars are defined under `satellite`. There are a few required vars:
 In addition, the initial organization and location need to be defined under `satellite.foreman`. See below for the full structure.
 Finally, be sure to include the `tuning_config_files` list, shown below.
 
-```
+```yaml
 satellite:
   version: 6.7
   admin_username: admin
@@ -78,7 +78,7 @@ satellite:
 
 ## Inventory Structure
 This collection targets satellite servers, however it's a good idea to break up satellite/capsule servers and define var files for each individually:
-```
+```yaml
 [satellite]
 satellite67.josh.lab.msp.redhat.com vars_file=/home/jswanson/ansible/satellite6.7-collections/satellite67.josh.lab.msp.redhat.com.vars.yml ansible_user=root
 
