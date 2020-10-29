@@ -1,5 +1,0 @@
----
-
-- name: grab vars from the main role
-  include_vars:
-    file: "{{ role_path | regex_replace('tune-satellite$','satellite') }}/vars/{{ inventory_hostname }}.vars.yml"
