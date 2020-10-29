@@ -22,7 +22,7 @@
 
 - name: set tuning profile
   set_fact:
-    - satellite_tuning_profile: "{{ satellite.tuning_profile }}"
+    satellite_tuning_profile: "{{ satellite.tuning_profile }}"
   when:
     - satellite.tuning_profile is defined
     - satellite.tuning_profile in satellite_tuning_profiles
