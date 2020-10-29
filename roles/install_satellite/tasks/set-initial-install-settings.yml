@@ -29,10 +29,14 @@
 
 - name: gather up initial installer options
   set_fact:
-    satellite_installer_options: "--foreman-initial-admin-username {{ satellite.admin_username }} --foreman-initial-admin-password {{ satellite.admin_password }} --foreman-initial-organization {{ satellite_initial_organization }} --foreman-initial-location {{ satellite_initial_location }}"
+    satellite_installer_options: "--foreman-initial-admin-username '{{ satellite.admin_username }}' --foreman-initial-admin-password '{{ satellite.admin_password }}' --foreman-initial-organization '{{ satellite_initial_organization }}' --foreman-initial-location '{{ satellite_initial_location }}'"
 
 - name: append tuning profile
   set_fact:
-    satellite_installer_options: "{{ satellite_installer_options + [ '--tuning ' ] + [ satellite_tuning_profile ] }}"
+    satellite_installer_options: "{{ satellite_installer_options }} --tuning '{{ satellite_tuning_profile }}'"
   when:
     - satellite_tuning_profile is defined
+
+- name: print out satellite installer options
+  debug:
+    msg: "{{ satellite_installer_options }}"
