@@ -22,3 +22,9 @@ maintenance_beta_repos:
 install_repos: []
 
 satellite_conflicting_rpms: gofer,python-pulp-agent-lib,python-gofer-proton,pulp-rpm-handlers
+
+tuning_profiles:
+  - medium
+  - large
+  - extra-large
+  - extra-extra-large

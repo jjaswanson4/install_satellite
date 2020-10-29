@@ -1,6 +1,6 @@
 # install_satellite
 
-Ansible collection for installing and tuning satellite.
+Ansible collection for installing and tuning satellite. Updated for Red Hat Satellute 6.8.
 
 This collection is also available on [ansible galaxy](https://galaxy.ansible.com/jjaswanson4/install_satellite).
 
@@ -10,9 +10,7 @@ This collection takes a RHEL7 host and installs satellite. It follows these step
 - Remove RPMs that conflict with satellite RPMs
 - Installs satellite RPMs
 - Run the satellite installer
-- Tune satellite - follows this [tuning guide](https://access.redhat.com/solutions/4224211)
-
-This collection does allow full control over the satellite installer via use of the satellite answer file. A default one is defined at templates/satellite-answers.yaml.j2
+- Applies the specified tuning profile
 
 ## Usage
 The best way to consume this collection is to set up a requirements.yml:
@@ -43,16 +41,10 @@ Finally, be sure to include the `tuning_config_files` list, shown below.
 
 ```yaml
 satellite:
-  version: 6.7
+  version: 6.8
   admin_username: admin
   admin_password: changeme
-  tuning_config_files:
-    - name: dynflowd.j2
-      path: /etc/sysconfig/dynflowd
-    - name: httpd_limits.conf.j2
-      path: /etc/systemd/system/httpd.service.d/limits.conf
-    - name: 01-satellite-tune.conf.j2
-      path: /etc/sysctl.d/01-satellite-tune.conf
+  tuning_profile: medium
   foreman:
     organizations:
       - name: general

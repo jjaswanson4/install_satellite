@@ -8,30 +8,8 @@
   check_mode: false
   ignore_errors: true
 
-- name: push the satellite answer file
-  template:
-    src: templates/satellite-answers.yaml.j2
-    dest: /etc/foreman-installer/scenarios.d/satellite-custom-answers.yaml
-    owner: root
-    group: root
-    mode: '0640'
-  when:
-    - "'Failed to open TCP connection' in hammer_output.stderr"
-
-- name: adjust foreman installer satellite scenario file to point to answer file
-  lineinfile:
-    path: /etc/foreman-installer/scenarios.d/satellite.yaml 
-    line: ':answer_file: /etc/foreman-installer/scenarios.d/satellite-custom-answers.yaml'
-    regexp: '^:answer_file:(.*)$'
-    insertafter: EOF
-  when:
-    - "'Failed to open TCP connection' in hammer_output.stderr"
-
 - name: run the satellite installer
-  shell: >-
-    satellite-installer --scenario satellite
-    --foreman-initial-admin-username '{{ satellite.admin_username }}'
-    --foreman-initial-admin-password '{{ satellite.admin_password }}'
+  shell: "satellite-installer --scenario satellite {{ satellite_installer_options }}"
   register: satellite_installer_output
   when:
     - "'Failed to open TCP connection' in hammer_output.stderr"

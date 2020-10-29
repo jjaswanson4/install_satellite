@@ -19,3 +19,20 @@
   loop_control:
     loop_var: location
   loop: "{{ satellite.foreman.locations }}"
+
+- name: set tuning profile
+  set_fact:
+    - satellite_tuning_profile: "{{ satellite.tuning_profile }}"
+  when:
+    - satellite.tuning_profile is defined
+    - satellite.tuning_profile in satellite_tuning_profiles
+
+- name: gather up initial installer options
+  set_fact:
+    satellite_installer_options: "--foreman-initial-admin-username {{ satellite.admin_username }} --foreman-initial-admin-password {{ satellite.admin_password }} --foreman-initial-organization {{ satellite_initial_organization }} --foreman-initial-location {{ satellite_initial_location }}"
+
+- name: append tuning profile
+  set_fact:
+    satellite_installer_options: "{{ satellite_installer_options + [ '--tuning ' ] + [ satellite_tuning_profile ] }}"
+  when:
+    - satellite_tuning_profile is defined
