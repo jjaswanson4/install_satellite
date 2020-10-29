@@ -3,7 +3,6 @@
 common_repos:
   - rhel-7-server-rpms
   - rhel-server-rhscl-7-rpms
-  - rhel-7-server-ansible-2.8-rpms
 
 satellite_repos:
   - "rhel-7-server-satellite-{{ satellite.version }}-rpms"
