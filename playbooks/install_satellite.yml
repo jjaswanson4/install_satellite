@@ -11,4 +11,3 @@
         file: "{{ vars_file }}"
   roles:
     - jjaswanson4.install_satellite.install_satellite
-    - jjaswanson4.install_satellite.tune_satellite
