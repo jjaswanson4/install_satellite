@@ -37,6 +37,11 @@
   when:
     - satellite_tuning_profile is defined
 
+- name: append additional installer options
+  set_fact:
+    satellite_installer_options: "{{ satellite_installer_options }} + {{ satellite.installer_options | join(' ') }}"
+  when: satellite.installer_options is defined
+
 - name: print out satellite installer options
   debug:
     msg: "{{ satellite_installer_options }}"
