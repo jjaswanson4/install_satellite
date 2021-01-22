@@ -4,3 +4,12 @@
   yum:
     name: satellite
     state: present
+  when:
+    - inventory_hostname in groups['satellite']
+
+- name: install packages for satellite-capsule
+  yum:
+    name: satellite-capsule
+    state: present
+  when:
+    - inventory_hostname in groups['capsules']

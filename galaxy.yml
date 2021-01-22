@@ -1,11 +1,12 @@
 namespace: jjaswanson4
 name: install_satellite
-version: 1.0.2
+version: 1.1.0
 readme: README.md
 authors:
 - Josh Swanson <jswanson@redhat.com>
 - Scott Danielson <sdaniels@redhat.com>
 - Rodrique Heron <rheron@redhat.com>
+- Derek Winters <contact@derekwinters.com>
 description: This collection installs satellite6
 license:
 - GPL-2.0-or-later
