@@ -1,0 +1,32 @@
+---
+- name: Set capsule install options
+  ansible.builtin.slurp:
+    src: /root/certificate/options
+  when:
+    - inventory_hostname in groups['capsules']
+  register: capsule_options
+
+- name: Decode Install Options
+  ansible.builtin.set_fact:
+    capsule_install_options: "{{ capsule_options.content | b64decode }}"
+
+- name: run the capsule installer
+  ansible.builtin.command:
+    cmd: "satellite-installer --scenario capsule {{ capsule_install_options }}"
+  register: capsule_install
+  when:
+    - inventory_hostname in groups['capsules']
+    - (not checkfile_exists.stat.exists) or ( (create_key.changed or create_crt.changed) and checkfile_exists.stat.exists)
+
+- name: Create new CheckFile
+  ansible.builtin.copy:
+    content: "Cert for {{ cert_cn }} with expiration {{ cert_expiration_date.stdout }} installed on {{ ansible_date_time.iso8601 }}"
+    dest: "{{ checkfile_name }}"
+    group: root
+    owner: root
+    mode: 0600
+  delegate_to: "{{ groups['satellite'][0] }}"
+  throttle: 1
+  when:
+    - capsule_install.rc is defined
+    - capsule_install.rc == 0

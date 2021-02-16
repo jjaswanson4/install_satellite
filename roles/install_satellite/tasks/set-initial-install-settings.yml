@@ -35,6 +35,14 @@
     satellite_installer_options: "{{ satellite_installer_options }} {{ satellite.installer_options | join(' ') }}"
   when: satellite.installer_options is defined
 
-- name: print out satellite installer options
-  debug:
-    msg: "{{ satellite_installer_options }}"
+- name: Create options file
+  ansible.builtin.copy:
+    content: "{{ satellite_installer_options }}"
+    dest: "/root/certificate/{{ inventory_hostname }}/options"
+    owner: root
+    group: root
+    mode: 0600
+    backup: yes
+  when:
+    - satellite_install_options is defined
+  register: satellite_options_file

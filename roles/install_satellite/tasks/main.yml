@@ -1,7 +1,28 @@
 ---
 
-- import_tasks: configure-repositories.yml
-- import_tasks: remove-conflicting-rpms.yml
-- import_tasks: install-satellite-rpms.yml
-- import_tasks: set-initial-install-settings.yml
-- import_tasks: run-satellite-installer.yml
+- name: Configure Repositories
+  ansible.builtin.import_tasks: configure-repositories.yml
+
+- name: Remove conflicting RPMs
+  ansible.builtin.import_tasks: remove-conflicting-rpms.yml
+
+- name: Install RPMs
+  ansible.builtin.import_tasks: install-satellite-rpms.yml
+
+- name: Import Firewall Tasks
+  ansible.builtin.import_tasks: firewall.yml
+
+- name: Set Satellite Master Install Settings
+  ansible.builtin.import_tasks: set-initial-install-settings.yml
+  when:
+    - inventory_hostname in groups['satellite']
+
+- name: Import Satellite Install Tasks
+  ansible.builtin.import_tasks: run-satellite-installer.yml
+  when:
+    - inventory_hostname in groups['satellite']
+
+- name: Import Capsule Install Tasks
+  ansible.builtin.import_tasks: capsule.yml
+  when:
+    - inventory_hostname in groups['capsules']

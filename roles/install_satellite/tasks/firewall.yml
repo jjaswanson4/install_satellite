@@ -1,0 +1,17 @@
+---
+
+- name: Ensure firewall service
+  ansible.posix.firewalld:
+    service: RH-Satellite-6
+    permanent: true
+    state: enabled
+    immediate: yes
+
+- name: Add 8443/tcp to Capsules
+  ansible.posix.firewalld:
+    port: 8443/tcp
+    permanent: true
+    state: enabled
+    immediate: yes
+  when:
+    - inventory_hostname in groups['capsules']
