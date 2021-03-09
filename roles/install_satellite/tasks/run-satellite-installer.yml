@@ -7,14 +7,11 @@
   failed_when: false
   check_mode: false
   ignore_errors: true
-  when:
-    - inventory_hostname in groups['satellite']
 
 - name: Read Install Options
   ansible.builtin.slurp:
-    src: "/root/certificate/{{ inventory_hostname }}/options"
+    src: /root/satellite/options
   when:
-    - inventory_hostname in groups['satellite']
     - satellite_options_file.skipped is undefined
   register: satellite_options
 
@@ -22,6 +19,4 @@
   shell: "satellite-installer --scenario satellite {{ satellite_options.content | b64decode | default('') }}"
   register: satellite_installer_output
   when:
-    - inventory_hostname in groups['satellite']
-    - satellite_options_file.skipped is undefined
-    - ("'Failed to open TCP connection' in hammer_output.stderr") or (satellite_options_file.changed is defined and satellite_options_file.changed)
+    - "'Failed to open TCP connection' in hammer_output.stderr or (satellite_options_file.changed is defined and satellite_options_file.changed)"
