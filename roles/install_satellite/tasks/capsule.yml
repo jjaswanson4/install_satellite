@@ -1,9 +1,8 @@
 ---
 - name: Set capsule install options
   ansible.builtin.slurp:
-    src: /root/certificate/options
+    src: /root/satellite/options
   when:
-    - inventory_hostname in groups['capsules']
   register: capsule_options
 
 - name: Decode Install Options
@@ -15,7 +14,6 @@
     cmd: "satellite-installer --scenario capsule {{ capsule_install_options }}"
   register: capsule_install
   when:
-    - inventory_hostname in groups['capsules']
     - (not checkfile_exists.stat.exists) or ( (create_key.changed or create_crt.changed) and checkfile_exists.stat.exists)
 
 - name: Create new CheckFile
