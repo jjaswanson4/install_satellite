@@ -15,14 +15,17 @@
 - name: Set Satellite Master Install Settings
   ansible.builtin.import_tasks: set-initial-install-settings.yml
   when:
+    - groups['satellite'] is defined
     - inventory_hostname in groups['satellite']
 
 - name: Import Satellite Install Tasks
   ansible.builtin.import_tasks: run-satellite-installer.yml
   when:
+    - groups['satellite'] is defined
     - inventory_hostname in groups['satellite']
 
 - name: Import Capsule Install Tasks
   ansible.builtin.import_tasks: capsule.yml
   when:
+    - groups['capsules'] is defined
     - inventory_hostname in groups['capsules']
