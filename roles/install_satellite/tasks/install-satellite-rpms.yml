@@ -5,6 +5,7 @@
     name: satellite
     state: present
   when:
+    - groups['satellite'] is defined
     - inventory_hostname in groups['satellite']
 
 - name: install packages for satellite-capsule
@@ -12,4 +13,5 @@
     name: satellite-capsule
     state: present
   when:
+    - groups['capsules'] is defined
     - inventory_hostname in groups['capsules']
