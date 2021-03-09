@@ -18,6 +18,7 @@
   set_fact:
     install_repos: "{{ common_repos + capsule_repos + maintenance_repos }}"
   when:
+    - groups['capsules'] is defined
     - inventory_hostname in groups['capsules']
 
 - name: add ansible 2.8 repo for satellite <= 6.7
