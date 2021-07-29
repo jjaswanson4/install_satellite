@@ -17,6 +17,8 @@
 
 - name: run the satellite installer
   shell: "satellite-installer --scenario satellite {{ satellite_options.content | b64decode | default('') }}"
+  environment:
+    LANG: en_US.UTF-8
   register: satellite_installer_output
   when:
     - "'Failed to open TCP connection' in hammer_output.stderr or (satellite_options_file.changed is defined and satellite_options_file.changed)"
