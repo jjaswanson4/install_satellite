@@ -1,6 +1,6 @@
 namespace: jjaswanson4
 name: install_satellite
-version: 1.2.4
+version: 1.2.5
 readme: README.md
 authors:
 - Josh Swanson <jswanson@redhat.com>
