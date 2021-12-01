@@ -26,14 +26,14 @@
     install_repos: "{{ install_repos + [ 'rhel-7-server-ansible-2.8-rpms' ] }}"
   when:
     - satellite.version != 'beta'
-    - satellite.version <= 6.7
+    - satellite.version is version_compare('6.7', '<=')
 
 - name: add ansible 2.9 repo for satellite >= 6.8 or beta
   set_fact:
     install_repos: "{{ install_repos + [ 'rhel-7-server-ansible-2.9-rpms' ] }}"
   when:
     - satellite.version == 'beta' or
-      satellite.version >= 6.8
+      satellite.version is version_compare('6.8', '>=')
 
 - name: enable install repos
   rhsm_repository:
