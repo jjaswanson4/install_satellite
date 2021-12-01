@@ -12,6 +12,9 @@ This collection takes a RHEL7 host and installs satellite. It follows these step
 - Run the satellite installer
 - Applies the specified tuning profile
 
+## Notes
+- For satelliute 6.10, you may need to quote the version (`satellite.version: '6.10'`) to ensure Ansible doesn't drop the tailing 0
+
 ## Usage
 The best way to consume this collection is to set up a requirements.yml:
 ```yaml
@@ -41,7 +44,7 @@ Finally, be sure to include the `tuning_config_files` list, shown below.
 
 ```yaml
 satellite:
-  version: 6.8
+  version: '6.8'
   admin_username: admin
   admin_password: changeme
   tuning_profile: medium

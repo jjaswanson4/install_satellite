@@ -44,7 +44,7 @@ Finally, be sure to include the `tuning_config_files` list, shown below.
 
 ```yaml
 satellite:
-  version: 6.8
+  version: '6.8'
   admin_username: admin
   admin_password: changeme
   tuning_profile: medium
