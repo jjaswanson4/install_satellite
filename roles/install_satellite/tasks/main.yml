@@ -13,19 +13,16 @@
   ansible.builtin.import_tasks: firewall.yml
 
 - name: Set Satellite Master Install Settings
-  ansible.builtin.import_tasks: set-initial-install-settings.yml
+  ansible.builtin.include_tasks: set-initial-install-settings.yml
   when:
-    - groups['satellite'] is defined
-    - inventory_hostname in groups['satellite']
+    - "'satellite' in group_names"
 
 - name: Import Satellite Install Tasks
-  ansible.builtin.import_tasks: run-satellite-installer.yml
+  ansible.builtin.include_tasks: run-satellite-installer.yml
   when:
-    - groups['satellite'] is defined
-    - inventory_hostname in groups['satellite']
+    - "'satellite' in group_names"
 
 - name: Import Capsule Install Tasks
-  ansible.builtin.import_tasks: capsule.yml
+  ansible.builtin.include_tasks: capsule.yml
   when:
-    - groups['capsules'] is defined
-    - inventory_hostname in groups['capsules']
+    - "'capsule' in group_names"
