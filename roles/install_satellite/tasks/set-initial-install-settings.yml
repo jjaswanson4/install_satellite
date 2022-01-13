@@ -1,24 +1,9 @@
 ---
 
-- name: set initial foreman organization
+- name: set initial foreman settings
   set_fact:
-    satellite_initial_organization: "{{ organization.name }}"
-  when:
-    - organization.initial_organization is defined
-    - organization.initial_organization
-  loop_control:
-    loop_var: organization
-  loop: "{{ satellite.foreman.organizations }}"
-
-- name: set initial foreman location
-  set_fact:
-    satellite_initial_location: "{{ location.name }}"
-  when:
-    - location.initial_location is defined
-    - location.initial_location
-  loop_control:
-    loop_var: location
-  loop: "{{ satellite.foreman.locations }}"
+    satellite_initial_organization: "{{ satellite.foreman | json_query('organizations[?initial_organization].name') | join }}"
+    satellite_initial_location: "{{ satellite.foreman | json_query('locations[?initial_location].name') | join }}"
 
 - name: gather up initial installer options
   set_fact:
