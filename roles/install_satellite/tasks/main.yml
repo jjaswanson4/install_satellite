@@ -1,6 +1,10 @@
 ---
 
-- name: Configure Repositories
+- name: Set Repositories for Respective RHEL Version
+  ansible.builtin.include_tasks:
+    file: set-repositories-for-rhel{{ ansible_distribution_major_version }}.yml
+
+- name: Enable Repositories
   ansible.builtin.import_tasks: configure-repositories.yml
 
 - name: Remove conflicting RPMs

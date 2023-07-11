@@ -1,0 +1,17 @@
+---
+
+- name: set repos and dnf modules for satellite version {{ satellite.version }} on RHEL8
+  set_fact:
+    install_repos: "{{ rhel8_common_repos + rhel8_satellite_repos + rhel8_maintenance_repos }}"
+    install_module: "{{ rhel8_dnf_module }}"
+  when:
+    - "'satellite' in group_names"
+    - satellite.version != 'beta'
+
+- name: set postgreqsl module version for satellite 6.11
+  ansible.builtin.set_fact:
+    postgresql_module_version: 12
+  when:
+    - satellite.version is version_compare('6.11', '=')
+
+    

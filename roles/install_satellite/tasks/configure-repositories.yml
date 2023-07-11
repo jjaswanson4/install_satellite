@@ -1,40 +1,5 @@
 ---
 
-- name: set repos for satellite version "{{ satellite.version }}"
-  set_fact:
-    install_repos: "{{ common_repos + satellite_repos + maintenance_repos }}"
-  when:
-    - "'satellite' in group_names"
-    - satellite.version != 'beta'
-
-- name: set repos for satellite beta
-  set_fact:
-    install_repos: "{{ common_repos + satellite_beta_repos + maintenance_beta_repos }}"
-  when:
-    - "'satellite' in group_names"
-    - satellite.version == 'beta'
-
-- name: set repos for capsules
-  set_fact:
-    install_repos: "{{ common_repos + capsule_repos + maintenance_repos }}"
-  when:
-    - groups['capsules'] is defined
-    - inventory_hostname in groups['capsules']
-
-- name: add ansible 2.8 repo for satellite <= 6.7
-  set_fact:
-    install_repos: "{{ install_repos + [ 'rhel-7-server-ansible-2.8-rpms' ] }}"
-  when:
-    - satellite.version != 'beta'
-    - satellite.version is version_compare('6.7', '<=')
-
-- name: add ansible 2.9 repo for satellite >= 6.8 or beta
-  set_fact:
-    install_repos: "{{ install_repos + [ 'rhel-7-server-ansible-2.9-rpms' ] }}"
-  when:
-    - satellite.version == 'beta' or
-      satellite.version is version_compare('6.8', '>=')
-
 - name: enable install repos
   rhsm_repository:
     name: "{{ repo }}"
@@ -43,6 +8,28 @@
     loop_var: repo
   loop:
     - "{{ install_repos }}"
+
+- name: get enabled postgresql module
+  ansible.builtin.shell:
+    cmd: dnf module list postgresql | grep "{{ postgresql_module_version }}"
+  register: desired_postgresql_module
+  changed_when: no
+
+- name: setup postgreqsl module
+  block:
+    - name: disable all postgresql modules
+      ansible.builtin.shell:
+        cmd: dnf module disable postgresql -y
+    - name: enable correct postgresql module
+      ansible.builtin.shell:
+        cmd: "dnf module enable postgresql:{{ postgresql_module_version }} -y"
+  when:
+    - "'[e]' not in desired_postgresql_module.stdout"
+
+- name: enable dnf module
+  ansible.builtin.shell:
+    cmd: "dnf module enable {{ install_module }} -y"
+  register: dnf_module_enable
 
 - name: get other enabled repos
   shell: subscription-manager repos --list-enabled | grep 'Repo ID' | awk '{print $3}'

@@ -1,23 +1,35 @@
 ---
 
-common_repos:
+rhel7_common_repos:
   - rhel-7-server-rpms
   - rhel-server-rhscl-7-rpms
 
-satellite_repos:
+rhel7_satellite_repos:
   - "rhel-7-server-satellite-{{ satellite.version }}-rpms"
 
-capsule_repos:
+rhel7_capsule_repos:
   - "rhel-7-server-satellite-capsule-{{ satellite.version }}-rpms"
 
-maintenance_repos:
+rhel7_maintenance_repos:
   - rhel-7-server-satellite-maintenance-6-rpms
 
-satellite_beta_repos:
+rhel7_satellite_beta_repos:
   - rhel-server-7-satellite-6-beta-rpms
 
-maintenance_beta_repos:
+rhel7_maintenance_beta_repos:
   - rhel-7-server-satellite-maintenance-6-beta-rpms
+
+rhel8_common_repos:
+  - rhel-8-for-x86_64-baseos-rpms
+  - rhel-8-for-x86_64-appstream-rpms
+
+rhel8_satellite_repos:
+  - satellite-6.11-for-rhel-8-x86_64-rpms
+
+rhel8_maintenance_repos:
+  - satellite-maintenance-6.11-for-rhel-8-x86_64-rpms
+
+rhel8_dnf_module: satellite:el8
 
 install_repos: []
 

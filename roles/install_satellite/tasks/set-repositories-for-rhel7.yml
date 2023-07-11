@@ -1,0 +1,36 @@
+---
+
+- name: set repos for satellite version "{{ satellite.version }} on RHEL7"
+  set_fact:
+    install_repos: "{{ rhel7_common_repos + rhel7_satellite_repos + rhel7_maintenance_repos }}"
+  when:
+    - "'satellite' in group_names"
+    - satellite.version != 'beta'
+
+- name: set repos for satellite beta on RHEL7
+  set_fact:
+    install_repos: "{{ rhel7_common_repos + rhel7_satellite_beta_repos + rhel7_maintenance_beta_repos }}"
+  when:
+    - "'satellite' in group_names"
+    - satellite.version == 'beta'
+
+- name: set repos for capsules on RHEL7
+  set_fact:
+    install_repos: "{{ rhel7_common_repos + rhel7_capsule_repos + rhel7_maintenance_repos }}"
+  when:
+    - groups['capsules'] is defined
+    - inventory_hostname in groups['capsules']
+
+- name: add ansible 2.8 repo for satellite <= 6.7
+  set_fact:
+    install_repos: "{{ install_repos + [ 'rhel-7-server-ansible-2.8-rpms' ] }}"
+  when:
+    - satellite.version != 'beta'
+    - satellite.version is version_compare('6.7', '<=')
+
+- name: add ansible 2.9 repo for satellite >= 6.8 or beta
+  set_fact:
+    install_repos: "{{ install_repos + [ 'rhel-7-server-ansible-2.9-rpms' ] }}"
+  when:
+    - satellite.version == 'beta' or
+      satellite.version is version_compare('6.8', '>=')
