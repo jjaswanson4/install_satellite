@@ -36,7 +36,7 @@
     dest: /root/satellite/options
     owner: root
     group: root
-    mode: 0600
+    mode: u=rw
     backup: true
   when:
     - satellite_installer_options is defined
