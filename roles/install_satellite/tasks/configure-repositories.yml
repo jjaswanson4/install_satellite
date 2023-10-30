@@ -1,6 +1,6 @@
 ---
 
-- name: enable install repos
+- name: Enable install repos
   rhsm_repository:
     name: "{{ repo }}"
     state: enabled
@@ -9,36 +9,35 @@
   loop:
     - "{{ install_repos }}"
 
-- name: get enabled postgresql module
-  ansible.builtin.shell:
-    cmd: dnf module list postgresql | grep "{{ postgresql_module_version }}"
+- name: Get enabled postgresql module
+  ansible.builtin.shell: |
+    set -o pipefail && dnf module list postgresql | grep "{{ postgresql_module_version }}"
   register: desired_postgresql_module
-  changed_when: no
+  changed_when: false
 
-- name: setup postgreqsl module
+- name: Setup postgreqsl module
   block:
-    - name: disable all postgresql modules
-      ansible.builtin.shell:
-        cmd: dnf module disable postgresql -y
-    - name: enable correct postgresql module
-      ansible.builtin.shell:
-        cmd: "dnf module enable postgresql:{{ postgresql_module_version }} -y"
+    - name: Disable all postgresql modules
+      ansible.builtin.command: "dnf module disable postgresql -y"
+    - name: Enable correct postgresql module
+      ansible.builtin.command: "dnf module enable postgresql:{{ postgresql_module_version }} -y"
   when:
     - "'[e]' not in desired_postgresql_module.stdout"
 
-- name: enable dnf module
-  ansible.builtin.shell:
-    cmd: "dnf module enable {{ install_module }} -y"
+- name: Enable dnf module
+  ansible.builtin.command: "dnf module enable {{ install_module }} -y"
   register: dnf_module_enable
 
-- name: get other enabled repos
-  shell: subscription-manager repos --list-enabled | grep 'Repo ID' | awk '{print $3}'
+- name: Get other enabled repos
+  ansible.builtin.shell: |
+    set -o pipefail
+    subscription-manager repos --list-enabled | grep 'Repo ID' | awk '{print $3}'
   register: enabled_repos
   changed_when: false
   check_mode: false
 
-- name: disable unneeded repos
-  rhsm_repository:
+- name: Disable unneeded repos
+  community.general.rhsm_repository:
     name: "{{ repo }}"
     state: disabled
   when:

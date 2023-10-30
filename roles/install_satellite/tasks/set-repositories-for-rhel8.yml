@@ -8,10 +8,8 @@
     - "'satellite' in group_names"
     - satellite.version != 'beta'
 
-- name: set postgreqsl module version for satellite 6.11
+- name: set postgreqsl module version for satellite 6.11 and above
   ansible.builtin.set_fact:
     postgresql_module_version: 12
   when:
-    - satellite.version is version_compare('6.11', '=')
-
-    
+    - satellite.version is version_compare('6.11', '>=')

@@ -22,7 +22,7 @@
     dest: "{{ checkfile_name }}"
     group: root
     owner: root
-    mode: 0600
+    mode: u=rw
   delegate_to: "{{ groups['satellite'][0] }}"
   throttle: 1
   when:

@@ -40,7 +40,6 @@ All vars are defined under `satellite`. There are a few required vars:
 | `admin_password` | The admin password for satellite                                                                              |
 
 In addition, the initial organization and location need to be defined under `satellite.foreman`. See below for the full structure.
-Finally, be sure to include the `tuning_config_files` list, shown below.
 
 ```yaml
 satellite:
