@@ -9,7 +9,7 @@
 
 - name: Add 8443/tcp to Capsules
   ansible.posix.firewalld:
-    port: 8443/tcp
+    service: RH-Satellite-6-capsule
     permanent: true
     state: enabled
     immediate: yes

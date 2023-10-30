@@ -1,6 +1,6 @@
 ---
 
-- name: check for existing satellite install
+- name: Check for existing satellite install
   shell: hammer ping
   register: hammer_output
   changed_when: false
@@ -15,7 +15,7 @@
     - satellite_options_file.skipped is undefined
   register: satellite_options
 
-- name: run the satellite installer
+- name: Run the satellite installer
   ansible.builtin.shell:
     cmd: "satellite-installer --scenario satellite {{ satellite_options.content | b64decode | default('') }}"
     executable: /bin/bash
