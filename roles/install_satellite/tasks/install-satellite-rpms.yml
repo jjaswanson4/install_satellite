@@ -1,15 +1,15 @@
 ---
 
-- name: install packages for satellite
-  yum:
+- name: Install packages for satellite
+  ansible.builtin.yum:
     name: satellite
     state: present
   when:
     - groups['satellite'] is defined
     - inventory_hostname in groups['satellite']
 
-- name: install packages for satellite-capsule
-  yum:
+- name: Install packages for satellite-capsule
+  ansible.builtin.yum:
     name: satellite-capsule
     state: present
   when:

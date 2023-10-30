@@ -1,26 +1,26 @@
 ---
 
-- name: set initial foreman settings
+- name: Set initial foreman settings
   set_fact:
     satellite_initial_organization: "{{ satellite.foreman | json_query('organizations[?initial_organization].name') | join }}"
     satellite_initial_location: "{{ satellite.foreman | json_query('locations[?initial_location].name') | join }}"
 
-- name: gather up initial installer options
+- name: Gather up initial installer options
   set_fact:
     satellite_installer_options: "--foreman-initial-admin-username '{{ satellite.admin_username }}' --foreman-initial-admin-password '{{ satellite.admin_password }}' --foreman-initial-organization '{{ satellite_initial_organization }}' --foreman-initial-location '{{ satellite_initial_location }}'"
 
-- name: append tuning profile
+- name: Append tuning profile
   set_fact:
     satellite_installer_options: "{{ satellite_installer_options }} --tuning '{{ satellite.tuning_profile }}'"
   when:
     - satellite.tuning_profile is defined
 
-- name: append additional installer options
+- name: Append additional installer options
   set_fact:
     satellite_installer_options: "{{ satellite_installer_options }} {{ satellite.installer_options | join(' ') }}"
   when: satellite.installer_options is defined
 
-- name: create directory for options file
+- name: Create directory for options file
   ansible.builtin.file:
     path: "{{ directory }}"
     state: directory
@@ -37,7 +37,7 @@
     owner: root
     group: root
     mode: 0600
-    backup: yes
+    backup: true
   when:
     - satellite_installer_options is defined
   register: satellite_options_file
